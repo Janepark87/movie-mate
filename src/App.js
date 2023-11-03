@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { tempMovieData } from './assets/data/temp-movie-data';
+import { tempWatchedData } from './assets/data/temp-watched-data';
+
 import Navbar from './layouts/Navbar';
 import Main from './layouts/Main';
 
 import Search from './components/Search';
 import NumResult from './components/navbar/NumResult';
 
-import MoveListBox from './components/movies/MoveListBox';
-import WatchListBox from './components/movies/WatchListBox';
-import MovieList from './components/movies/MovieList';
+import ListBox from './components/movies/ListBox';
+import MoviesList from './components/movies/MoviesList';
+import WatechedSummary from './components/movies/WatechedSummary';
+import WatchedMoviesList from './components/movies/WatchedMoviesList';
 
 export default function App() {
 	const [movies, setMovies] = useState(tempMovieData);
+	const [watched, setWatched] = useState(tempWatchedData);
 
 	return (
 		<>
@@ -21,11 +25,14 @@ export default function App() {
 			</Navbar>
 
 			<Main>
-				<MoveListBox>
-					<MovieList movies={movies} />
-				</MoveListBox>
+				<ListBox>
+					<MoviesList movies={movies} />
+				</ListBox>
 
-				<WatchListBox />
+				<ListBox>
+					<WatechedSummary watched={watched} />
+					<WatchedMoviesList watched={watched} />
+				</ListBox>
 			</Main>
 		</>
 	);
