@@ -313,6 +313,34 @@ body {
 	gap: 2.4rem;
 }
 
+.rating-container {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.rating-inner {
+	display: flex;
+}
+
+.rating-text {
+	line-height: 1;
+	margin: 0;
+}
+
+.rating-inner {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.star {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
+
 .btn-add {
 	background-color: var(--color-primary);
 	color: var(--color-text);
