@@ -1,6 +1,6 @@
-export default function EmptyStarSvg() {
+export default function EmptyStarSvg({ color }) {
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#000">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke={color}>
 			<path
 				strokeLinecap="round"
 				strokeLinejoin="round"

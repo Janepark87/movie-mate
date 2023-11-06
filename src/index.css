@@ -323,11 +323,6 @@ body {
 	display: flex;
 }
 
-.rating-text {
-	line-height: 1;
-	margin: 0;
-}
-
 .rating-inner {
 	display: flex;
 	align-items: center;
