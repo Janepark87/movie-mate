@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { tempMovieData } from './assets/data/temp-movie-data';
 import { tempWatchedData } from './assets/data/temp-watched-data';
 
 import Navbar from './layouts/Navbar';
@@ -15,13 +14,23 @@ import WatechedSummary from './components/movies/WatechedSummary';
 import WatchedMoviesList from './components/movies/WatchedMoviesList';
 import { useEffect } from 'react';
 import ErrorMessage from './components/ErrorMessage';
+import MovieDetails from './components/movies/MovieDetails';
 
 export default function App() {
-	const [query, setQuery] = useState('');
-	const [movies, setMovies] = useState([]);
-	const [watched, setWatched] = useState(tempWatchedData);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
+	const [query, setQuery] = useState('kingdom');
+	const [movies, setMovies] = useState([]);
+	const [watched, setWatched] = useState(tempWatchedData);
+	const [selectedId, setSelectedId] = useState(null);
+
+	const handleSelectMovie = (id) => {
+		setSelectedId((selectedId) => (selectedId === id ? null : id));
+	};
+
+	const handleCloseMovieDetails = () => {
+		setSelectedId(null);
+	};
 
 	useEffect(() => {
 		const fetchMovies = async () => {
@@ -35,7 +44,7 @@ export default function App() {
 
 				const data = await res.json();
 
-				if (data.Response === 'False') throw new Error('Move not found');
+				if (data.Response === 'False') throw new Error('Movies not found');
 
 				setMovies(data.Search);
 			} catch (err) {
@@ -65,13 +74,19 @@ export default function App() {
 			<Main>
 				<ListBox>
 					{isLoading && <Loader />}
-					{!isLoading && !error && <MoviesList movies={movies} />}
+					{!isLoading && !error && <MoviesList movies={movies} onSelectedMovie={handleSelectMovie} />}
 					{error && <ErrorMessage message={error} />}
 				</ListBox>
 
 				<ListBox>
-					<WatechedSummary watched={watched} />
-					<WatchedMoviesList watched={watched} />
+					{selectedId ? (
+						<MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovieDetails} />
+					) : (
+						<>
+							<WatechedSummary watched={watched} />
+							<WatchedMoviesList watched={watched} />
+						</>
+					)}
 				</ListBox>
 			</Main>
 		</>

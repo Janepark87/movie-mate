@@ -6,9 +6,9 @@ export default function StarRating({ maxRating = 5, color = '#fcc419', size = 32
 	const [rating, setRating] = useState(defaultRating);
 	const [tempHoverRating, setTempHoverRating] = useState(0);
 
-	const handleRating = (rating) => {
-		setRating(rating);
-		onSetRating(rating);
+	const handleRating = (currentRating) => {
+		setRating(currentRating);
+		if (onSetRating) onSetRating(currentRating);
 	};
 
 	const textStyle = {
