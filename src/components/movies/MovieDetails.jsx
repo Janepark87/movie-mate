@@ -4,12 +4,14 @@ import StarRating from '../rating/StarRating';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 
-export default function MovieDetails({ selectedId, onCloseMovie }) {
+export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [movie, setMovie] = useState({});
+	const [userRating, setUserRating] = useState('');
 	const {
 		Title: title,
+		Year: year,
 		Poster: poster,
 		Runtime: runtime,
 		Plot: plot,
@@ -19,6 +21,27 @@ export default function MovieDetails({ selectedId, onCloseMovie }) {
 		Genre: genre,
 		imdbRating,
 	} = movie;
+
+	// check if the movie is already in my watched list
+	const isWatched = watched.map((watchedMovie) => watchedMovie.imdbID).includes(selectedId);
+
+	// get the watched movie's userRating
+	const watchedUserRating = watched.find((watchedMovie) => watchedMovie.imdbID === selectedId)?.userRating;
+
+	const handleAddToList = () => {
+		const newWatchedMovie = {
+			imdbID: selectedId,
+			title,
+			year,
+			poster,
+			imdbRating: Number(imdbRating),
+			runtime: Number(runtime.split(' ').at(0)),
+			userRating,
+		};
+
+		onAddWatched(newWatchedMovie);
+		onCloseMovie();
+	};
 
 	useEffect(() => {
 		const getMovieDetails = async () => {
@@ -73,7 +96,18 @@ export default function MovieDetails({ selectedId, onCloseMovie }) {
 
 					<section>
 						<div className="rating">
-							<StarRating maxRating={10} size={22} />
+							{!isWatched ? (
+								<>
+									<StarRating maxRating={10} size={22} onSetRating={setUserRating} />
+									{userRating > 0 && (
+										<button className="btn-add" onClick={handleAddToList}>
+											+ Add to list
+										</button>
+									)}
+								</>
+							) : (
+								<p>You already rated with movie 🌟 {watchedUserRating}</p>
+							)}
 						</div>
 
 						<p>
