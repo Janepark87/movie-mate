@@ -18,9 +18,12 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [query, setQuery] = useState('venom');
-	const [movies, setMovies] = useState([]);
-	const [watched, setWatched] = useState([]);
 	const [selectedId, setSelectedId] = useState(null);
+	const [movies, setMovies] = useState([]);
+	const [watched, setWatched] = useState(() => {
+		const storedValue = JSON.parse(localStorage.getItem('watchedMovies'));
+		return storedValue ? storedValue : [];
+	});
 
 	const handleSelectMovie = (id) => {
 		setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -36,7 +39,12 @@ export default function App() {
 
 	const handleDeleteWatched = (deletedId) => {
 		setWatched((watched) => watched.filter((movie) => movie.imdbID !== deletedId));
+		localStorage.removeItem('watchedMovies');
 	};
+
+	useEffect(() => {
+		localStorage.setItem('watchedMovies', JSON.stringify(watched));
+	}, [watched]);
 
 	useEffect(() => {
 		const controller = new AbortController();
