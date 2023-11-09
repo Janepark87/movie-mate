@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import StarRating from '../rating/StarRating';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
+import { useRef } from 'react';
 
 export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,7 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		Genre: genre,
 		imdbRating,
 	} = movie;
+	const clickCountRef = useRef(0);
 
 	// check if the movie is already in my watched list
 	const isWatched = watched.map((watchedMovie) => watchedMovie.imdbID).includes(selectedId);
@@ -42,6 +44,11 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		onAddWatched(newWatchedMovie);
 		onCloseMovie();
 	};
+
+	useEffect(() => {
+		// check the amount of clicks on the rating
+		if (userRating) clickCountRef.current++;
+	}, [userRating]);
 
 	useEffect(() => {
 		const escapedMovie = (e) => e.code === 'Escape' && onCloseMovie();
