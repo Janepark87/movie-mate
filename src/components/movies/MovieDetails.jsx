@@ -4,6 +4,7 @@ import StarRating from '../rating/StarRating';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 import { useRef } from 'react';
+import useKey from '../../hooks/useKey';
 
 export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,16 +46,12 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		onCloseMovie();
 	};
 
+	useKey('escape', onCloseMovie);
+
 	useEffect(() => {
 		// check the amount of clicks on the rating
 		if (userRating) clickCountRef.current++;
 	}, [userRating]);
-
-	useEffect(() => {
-		const escapedMovie = (e) => e.code === 'Escape' && onCloseMovie();
-		document.addEventListener('keydown', escapedMovie);
-		return () => document.removeEventListener('keydown', escapedMovie);
-	}, [onCloseMovie]);
 
 	useEffect(() => {
 		const getMovieDetails = async () => {

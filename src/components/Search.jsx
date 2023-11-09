@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import { useState } from 'react';
+import useKey from '../hooks/useKey';
 
 export default function Search({ onSearch }) {
 	const [search, setSearch] = useState('');
@@ -15,10 +16,15 @@ export default function Search({ onSearch }) {
 		}
 	};
 
+	useKey('enter', () => {
+		if (document.activeElement === searchInput.current) return;
+		searchInput.current.focus();
+	});
+
 	useEffect(() => {
 		const searchFocusedAfterEnter = (e) => {
 			if (document.activeElement === searchInput.current) return;
-			if (e.code === 'Enter') searchInput.current.focus();
+			searchInput.current.focus();
 		};
 
 		document.addEventListener('keydown', searchFocusedAfterEnter);

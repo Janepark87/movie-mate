@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useMovies from './hooks/useMovies';
+import useLocalStorageState from './hooks/useLocalStorageState';
 
 import Navbar from './layouts/Navbar';
 import Main from './layouts/Main';
@@ -19,11 +20,7 @@ export default function App() {
 	const [query, setQuery] = useState('venom');
 	const [selectedId, setSelectedId] = useState(null);
 	const { isLoading, error, movies } = useMovies(query);
-
-	const [watched, setWatched] = useState(() => {
-		const storedValue = JSON.parse(localStorage.getItem('watchedMovies'));
-		return storedValue ? storedValue : [];
-	});
+	const [watched, setWatched] = useLocalStorageState([], 'watchedMovies');
 
 	const handleSelectMovie = (id) => {
 		setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -41,10 +38,6 @@ export default function App() {
 		setWatched((watched) => watched.filter((movie) => movie.imdbID !== deletedId));
 		localStorage.removeItem('watchedMovies');
 	};
-
-	useEffect(() => {
-		localStorage.setItem('watchedMovies', JSON.stringify(watched));
-	}, [watched]);
 
 	return (
 		<>
