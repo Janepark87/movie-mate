@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export default function useMovies(query, callback) {
+export default function useMovies(query) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [movies, setMovies] = useState([]);
 
 	useEffect(() => {
-		// callback?.();
-
 		const controller = new AbortController();
 		const fetchMovies = async () => {
 			try {
@@ -49,5 +47,5 @@ export default function useMovies(query, callback) {
 		};
 	}, [query]);
 
-	return { isLoading, error, movies };
+	return { movies, isLoading, error };
 }
