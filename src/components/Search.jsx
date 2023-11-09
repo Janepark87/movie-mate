@@ -9,8 +9,10 @@ export default function Search({ onSearch }) {
 	const handleSearchSubmit = (e) => {
 		e.preventDefault();
 
-		if (search.length > 0) onSearch(search);
-		setSearch('');
+		if (search.trim().length > 0) {
+			onSearch(search.trim());
+			setSearch('');
+		}
 	};
 
 	useEffect(() => {
