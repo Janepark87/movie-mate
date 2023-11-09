@@ -79,9 +79,7 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		if (!title) return;
 		document.title = `Movie Mate | ${title}`;
 
-		return () => {
-			document.title = 'Movie Mate';
-		};
+		return () => (document.title = 'Movie Mate');
 	}, [title]);
 
 	return (
