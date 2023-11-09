@@ -17,7 +17,7 @@ import WatchedMoviesList from './components/movies/WatchedMoviesList';
 export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
-	const [query, setQuery] = useState('kingdom');
+	const [query, setQuery] = useState('venom');
 	const [movies, setMovies] = useState([]);
 	const [watched, setWatched] = useState([]);
 	const [selectedId, setSelectedId] = useState(null);
@@ -45,7 +45,9 @@ export default function App() {
 				setIsLoading(true);
 				setError('');
 
-				const res = await fetch(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_MOVIE_API}&s=${query}`, { signal: controller.signal });
+				const res = await fetch(`http://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_MOVIE_API}&s=${query}`, {
+					signal: controller.signal,
+				});
 
 				if (!res.ok) throw new Error('Something went wrong with fetching movies');
 
@@ -56,8 +58,10 @@ export default function App() {
 				setMovies(data.Search);
 				setError('');
 			} catch (err) {
-				console.log(err.message);
-				if (err.name !== 'AbortError') setError(err.message);
+				if (err.name !== 'AbortError') {
+					console.log(err.message);
+					setError(err.message);
+				}
 			} finally {
 				setIsLoading(false);
 			}
@@ -65,10 +69,11 @@ export default function App() {
 
 		if (!query.length) {
 			setMovies([]);
-			setError('Search your movies...');
+			setError('Search movies...');
 			return;
 		}
 
+		handleCloseMovieDetails();
 		fetchMovies();
 
 		return () => {

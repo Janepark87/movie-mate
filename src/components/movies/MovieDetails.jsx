@@ -44,6 +44,12 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 	};
 
 	useEffect(() => {
+		const escapedMovie = (e) => e.code === 'Escape' && onCloseMovie();
+		document.addEventListener('keydown', escapedMovie);
+		return () => document.removeEventListener('keydown', escapedMovie);
+	}, [onCloseMovie]);
+
+	useEffect(() => {
 		const getMovieDetails = async () => {
 			try {
 				setIsLoading(true);
