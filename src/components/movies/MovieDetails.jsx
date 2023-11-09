@@ -68,6 +68,16 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		getMovieDetails();
 	}, [selectedId]);
 
+	// update the page title
+	useEffect(() => {
+		if (!title) return;
+		document.title = `Movie Mate | ${title}`;
+
+		return () => {
+			document.title = 'Movie Mate';
+		};
+	}, [title]);
+
 	return (
 		<div className="details">
 			{isLoading && <Loader />}
