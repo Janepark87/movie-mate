@@ -282,6 +282,7 @@ body {
 
 .details img {
 	width: 33%;
+	object-fit: cover;
 }
 
 .details-overview {
