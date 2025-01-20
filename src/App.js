@@ -55,7 +55,7 @@ export default function App() {
 					) : (
 						<>
 							<WatechedSummary watched={watched} />
-							<WatchedMoviesList watched={watched} onDeleteWatched={handleDeleteWatched} />
+							<WatchedMoviesList watched={watched} onDeleteWatched={handleDeleteWatched} onSelectedMovie={handleSelectMovie} />
 						</>
 					)}
 				</ListBox>

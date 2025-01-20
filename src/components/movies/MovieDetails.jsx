@@ -1,10 +1,8 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import useKey from '../../hooks/useKey';
 import StarRating from '../rating/StarRating';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
-import { useRef } from 'react';
-import useKey from '../../hooks/useKey';
 
 export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +81,7 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		if (!title) return;
 		document.title = `Movie Mate | ${title}`;
 
-		return () => (document.title = 'Movie Mate');
+		return () => (document.title = 'Movie Mate'); // clearn up
 	}, [title]);
 
 	return (

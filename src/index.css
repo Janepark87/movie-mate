@@ -214,6 +214,11 @@ body {
 	gap: 0.8rem;
 }
 
+.list-watched img,
+.list-watched h3 {
+	cursor: pointer;
+}
+
 .btn-delete {
 	position: absolute;
 	right: 2.4rem;
