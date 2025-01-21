@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useMovies(query) {
+export default function useMovies(query, callback) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [movies, setMovies] = useState([]);
@@ -46,6 +46,11 @@ export default function useMovies(query) {
 			controller.abort();
 		};
 	}, [query]);
+
+	// close movie detail while searching
+	useEffect(() => {
+		callback(null);
+	}, [movies, callback]);
 
 	return { movies, isLoading, error };
 }

@@ -19,7 +19,7 @@ import WatchedMoviesList from './components/movies/WatchedMoviesList';
 export default function App() {
 	const [query, setQuery] = useState('venom');
 	const [selectedId, setSelectedId] = useState(null);
-	const { movies, isLoading, error } = useMovies(query);
+	const { movies, isLoading, error } = useMovies(query, setSelectedId);
 	const [watched, setWatched] = useLocalStorageState([], 'watchedMovies');
 
 	const handleAddWatched = (newMovie) => setWatched((watched) => [newMovie, ...watched]);
@@ -29,11 +29,6 @@ export default function App() {
 	const handleSelectMovie = (id) => setSelectedId((selectedId) => (selectedId === id ? null : id));
 
 	const handleCloseMovieDetails = () => setSelectedId(null);
-
-	// close the watched list while searching
-	useEffect(() => {
-		setSelectedId(null);
-	}, [movies]);
 
 	return (
 		<>

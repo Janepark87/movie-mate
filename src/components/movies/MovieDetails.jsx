@@ -5,10 +5,11 @@ import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 
 export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState('');
 	const [movie, setMovie] = useState({});
 	const [userRating, setUserRating] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState('');
+	const clickCountRef = useRef(0);
 	const {
 		Title: title,
 		Year: year,
@@ -21,7 +22,6 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 		Genre: genre,
 		imdbRating,
 	} = movie;
-	const clickCountRef = useRef(0);
 
 	// check if the movie is already in my watched list
 	const isWatched = watched.map((watchedMovie) => watchedMovie.imdbID).includes(selectedId);
@@ -38,6 +38,7 @@ export default function MovieDetails({ selectedId, onCloseMovie, onAddWatched, w
 			imdbRating: Number(imdbRating),
 			runtime: Number(runtime.split(' ').at(0)),
 			userRating,
+			countRatingDecisions: clickCountRef.current,
 		};
 
 		onAddWatched(newWatchedMovie);
